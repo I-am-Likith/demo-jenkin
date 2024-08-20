@@ -15,7 +15,7 @@ pipeline {
                  script{
                         dir("s3jenkins")
                         {
-                            git "https://github.com/yeshwanthlm/Terraform-Jenkins.git"
+                            git "https://github.com/I-am-Likith/demo-jenkin.git"
                         }
                     }
                 }
