@@ -10,6 +10,17 @@ pipeline {
 
    agent  any
     stages {
+        stage('checkout') {
+            steps {
+                 script{
+                        dir("gitjenkins")
+                        {
+                            git "https://github.com/yeshwanthlm/Terraform-Jenkins.git"
+                        }
+                    }
+                }
+            }
+    stages {
         stage('Plan') {
             steps {
                 sh 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins ; terraform init'
