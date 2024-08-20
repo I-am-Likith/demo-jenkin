@@ -35,7 +35,7 @@ pipeline {
 
         stage('Apply') {
             steps {
-                sh "pwd;cd C:\Users\ashis\OneDrive\Documents\terraform\ecswithjenkins ; terraform apply -input=false tfplan"
+                sh "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins ; terraform apply -input=false tfplan"
             }
         }
     }
