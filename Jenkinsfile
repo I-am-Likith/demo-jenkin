@@ -13,19 +13,19 @@ pipeline {
         stage('checkout') {
             steps {
                  script{
-                        dir("gitjenkins")
+                        dir("s3jenkins")
                         {
                             git "https://github.com/yeshwanthlm/Terraform-Jenkins.git"
                         }
                     }
                 }
             }
-    stages {
+
         stage('Plan') {
             steps {
-                sh 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins ; terraform init'
-                sh "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins ; terraform plan -out tfplan"
-                sh 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins ; terraform show -no-color tfplan > tfplan.txt'
+                sh 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins/ ; terraform init'
+                sh "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins/ ; terraform plan -out tfplan"
+                sh 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins/ ; terraform show -no-color tfplan > tfplan.txt'
             }
         }
         stage('Approval') {
@@ -46,9 +46,10 @@ pipeline {
 
         stage('Apply') {
             steps {
-                sh "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins ; terraform apply -input=false tfplan"
+                sh "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/ecswithjenkins/ ; terraform apply -input=false tfplan"
             }
         }
     }
 
   }
+
