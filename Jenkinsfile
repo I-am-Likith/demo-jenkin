@@ -1,62 +1,54 @@
 pipeline {
+
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
-    }
+    } 
     environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
-    agent any
+
+   agent  any
     stages {
         stage('checkout') {
             steps {
-                script {
-                    // Print workspace details
-                    echo "Workspace: ${env.WORKSPACE}"
-                    
-                    // Checkout repository
-                    dir("s3jenkins") {
-                        deleteDir()  // Clean workspace to avoid old files
-                        echo "Cloning repository into s3jenkins directory"
-                        checkout([$class: 'GitSCM', 
-                                  branches: [[name: '*/main']],  // Adjust branch if needed
-                                  userRemoteConfigs: [[url: 'https://github.com/I-am-Likith/demo-jenkin.git']]
-                        ])
+                 script{
+                        dir("C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin")
+                        {
+                            git "https://github.com/yeshwanthlm/Terraform-Jenkins.git"
+                        }
                     }
                 }
             }
-        }
+
         stage('Plan') {
             steps {
-                dir("s3jenkins") {
-                    // Initialize and plan Terraform
-                    sh 'terraform init'
-                    sh 'terraform plan -out=tfplan'
-                    sh 'terraform show -no-color tfplan > tfplan.txt'
-                }
+                bat 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform init'
+                bat "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform plan -out tfplan"
+                bat 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform show -no-color tfplan > tfplan.txt'
             }
         }
         stage('Approval') {
-            when {
-                not {
-                    equals expected: true, actual: params.autoApprove
-                }
-            }
-            steps {
-                script {
-                    def plan = readFile 's3jenkins/tfplan.txt'
+           when {
+               not {
+                   equals expected: true, actual: params.autoApprove
+               }
+           }
+
+           steps {
+               script {
+                    def plan = readFile 'C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/tfplan.txt'
                     input message: "Do you want to apply the plan?",
                     parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
-                }
-            }
-        }
+               }
+           }
+       }
+
         stage('Apply') {
             steps {
-                dir("s3jenkins") {
-                    // Apply Terraform plan
-                    sh 'terraform apply -input=false tfplan'
-                }
+                bat "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform apply -input=false tfplan"
             }
         }
     }
-}
+
+  }
