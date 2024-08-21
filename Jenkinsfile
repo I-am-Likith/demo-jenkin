@@ -46,7 +46,7 @@ pipeline {
 
         stage('Apply') {
             steps {
-                bat "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform apply -input=false tfplan"
+                bat "cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ && terraform apply -input=false tfplan"
             }
         }
     }
