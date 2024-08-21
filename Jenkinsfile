@@ -15,7 +15,7 @@ pipeline {
                  script{
                         dir("C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin")
                         {
-                            git "https://github.com/yeshwanthlm/Terraform-Jenkins.git"
+                            git "https://github.com/I-am-Likith/demo-jenkin.git"
                         }
                     }
                 }
@@ -23,9 +23,9 @@ pipeline {
 
         stage('Plan') {
             steps {
-                bat 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform init'
-                bat "pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform plan -out tfplan"
-                bat 'pwd;cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin/ ; terraform show -no-color tfplan > tfplan.txt'
+                bat 'cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin && terraform init'
+                bat 'cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin && terraform plan -out=tfplan'
+                bat 'cd C:/Users/ashis/OneDrive/Documents/terraform/demo-jenkin && terraform show -no-color tfplan > tfplan.txt'
             }
         }
         stage('Approval') {
